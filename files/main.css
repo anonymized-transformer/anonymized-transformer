@@ -56,3 +56,9 @@ div.anchor{border-top:50px solid transparent;margin-top:-50px}
     div.publication div.img{max-width:23%}
     div.publication div.text{max-width:70%;text-align:left}
 }
+/* Better styles for embedding GitHub Gists */
+.gist{font-size:13px;line-height:18px;width:53em}
+.gist pre{font-family:Menlo,Monaco,'Bitstream Vera Sans Mono','Courier New',monospace !important}
+.gist-meta{font-family:Arial,sans-serif;font-size:13px !important}
+.gist-meta a{color:#3b5998 !important;font-weight:bold;text-decoration:none}
+.gist-meta a:hover{text-decoration:underline}
