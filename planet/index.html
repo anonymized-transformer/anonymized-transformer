@@ -108,7 +108,8 @@ body {
         <br><br>
 
         <b>Stochastic prediction</b>
-        The output of the RNN parameterizes a Gaussian distribution with diagonal covariance.
+        The output of the latent transition model parameterizes the predicted latent state with a Gaussian distribution with diagonal covariance.
+        The latent state is sampled from this Gaussian distribution and then decoded deterministically into the actual state of the humanoid using the observation model.
         We found that decoding stochastically was generally unreliable:
 
         <center>
@@ -121,7 +122,7 @@ body {
         </center>
 
         <b>Deterministic prediction</b>
-        We found that decoding deterministically (by using the mean as the prediction instead of sampling from the parameterized output distribution) to be somewhat better, but still noticeably worse than the Transformer due to compounding errors:
+        We found that decoding the latent state deterministically (by using the mean as the prediction instead of sampling from the parameterized output distribution) to be somewhat better, but still noticeably worse than the Transformer due to compounding errors:
 
         <center>
           <img src="images/deterministic_0.png" width="90%">
