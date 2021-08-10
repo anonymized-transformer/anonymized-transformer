@@ -45,3 +45,24 @@ function append_all() {
         append_image(id, width, i);
     }
 }
+
+function append_rollout(id, width, i) {
+    var elem = document.createElement('img');
+    elem.src = 'images/rollout_'.concat(i).concat('.png');
+    elem.height = width;
+    elem.style.padding = "20px 20px 20px 20px";
+    console.log(elem);
+
+    var div = document.getElementById(id)
+    div.appendChild(elem)
+    console.log(div);
+}
+
+function append_all_rollouts() {
+    var id = 'rollouts'
+    var width = 180;
+
+    for (let i = 0; i < 40; i++) {
+        append_rollout(id, width, i);
+    }
+}
