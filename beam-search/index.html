@@ -129,74 +129,26 @@ th, td {
       The $B$ ("beam width") most likely sequences from the candidate set define the updated hypothesis set $Y_t$.
       Following the presentation in <a href="https://arxiv.org/abs/2010.02650">Meister et al., 2020</a>, we have overloaded $\log P_\theta(\cdot \mid \mathbf{x})$ to define the likelihood of a set of sequences in addition to that of a single sequence: $\log P_\theta(Y \mid \mathbf{x}) = \sum_{\mathbf{y} \in Y} \log P_\theta(\mathbf{y} \mid \mathbf{x})$.
       <br><br>
-      We use a <b>beam width of $\mathbf{B=256}$</b>. The size of the <b>vocabulary $\mathbf{\mathcal{V}}$ is 100</b>, corresponding to the number of bins used in the <a href="../quantile_implementation/index.html">discretization procedure</a>.$^1$
+      We use a <b>beam width of $\boldsymbol{B=256}$</b>. The size of the <b>vocabulary $\boldsymbol{\mathcal{V}}$ is 100</b>, corresponding to the number of bins used in the <a href="../quantile_implementation/index.html">discretization procedure</a>.$^1$
       <br><br>
 
       <b>Planning with beam search.</b>&nbsp;
       Algorithm 1 is presented in an abstracted form so as to apply to a generic sequence generation problem.
-      To use beam search for control, we use the last $c$ transitions (the "context size") of the current trajectory as input.
-      We use a <b>context size of $\mathbf{c=5}$</b>.
-      <!-- For example, assuming that $c \ge 1$, at timestep $t=1$: -->
-      <!-- $$\mathbf{x} = \mathbf{s}_0 \circ \mathbf{a}_0 \circ r_0 \circ \mathbf{s}_1.$$ -->
-      <br><br>
-      The algorithm is also written in a way that abstracts away concerns relating to speed or GPU memory.
-      In practice, when evaluating the likelihood of a sequence $\log P_\theta(\mathbf{y} \mid \mathbf{x})$, only the final $c \cdot (N + M + 2)$ tokens (accounting for $N$-dim states, $M$-dim actions, and scalar rewards and rewards-to-go) of the sequence are passed as input to the model $P_\theta$.
+      To use beam search for control, we use the last $c$ transitions (the "context size") of the current trajectory as the input $\mathbf{x}$, corresponding to the most recent $c \cdot (N + M + 2)$ tokens$^2$:
+      Similarly, when evaluating the likelihood of a generated sequence $\mathbf{y}$, only the most recent $c$ transitions of the sequence are passed as input to the model $P_\theta$.
+      We use a <b>context size of $\boldsymbol{c=5}$</b>.
       <br><br>
 
-      We use a <b>planning horizon of $10$ transitions</b>, corresponding to a generated sequence length of $10 \cdot (N + M + 2)$ tokens.
+      We use a <b>planning horizon of $10$ transitions</b>, corresponding to a generated <b>sequence length of $\boldsymbol{T=10 \cdot (N + M + 2)}$ tokens</b>.
       For example, for the Hopper benchmark, $T = 10 \cdot (11 + 3 + 2) = 160$.
-      <!-- The call to beam search at $t=0$ can then be written as: -->
-      <!-- $$\texttt{beam_search}(\mathbf{x} = \mathbf{s}_0, ~\mathcal{V} = \{1, \ldots, 100\}, ~T = 160, ~B = 256).$$ -->
       <br><br>
 
       <p style="font-size:15px">
-      $^1$Because the beam width is larger than the context size, at $t=1$ of Algorithm 1 we can consider all possible tokens in the hypothesis set $Y_1$. At $t=2$, when there are $100^2$ options, we must begin pruning. This is reflected by allowing the size of the hypothesis set to be less than the beam width in line 4: $| Y | \le B$.
+      $^1$Because the beam width is larger than the vocabulary size, at $t=1$ of Algorithm 1 we can fit all single tokens in the hypothesis set $Y_1$. At $t=2$, when there are $100^2$ options, we must begin pruning. This is reflected by allowing the size of the hypothesis set to be less than the beam width in line 4: $| Y | \le B$.
+      <br>
+      $^2$$N+M+2$ accounts for $N$-dimensional states, $M$-dimensional actions, and scalar rewards and rewards-to-go.
       </p>
       <br><br>
-
-      <!-- are When evaluating the likelihood of a sequence, $\log P_\theta(\mathbf{y} \mid \mathbf{x}),  -->
-      <!-- trajectory thus far as input sequence $\mathbf{x}$. current state as input sequence $\mathbf{x}$. -->
-
-      <!-- take as an argument a set of sequences instead of a single sequence. -->
-      <!-- concatenated with a single token from$\mathbf{} -->
-      <!-- Given an initial conditioning sequence $\mathbf{x}$ and a set of  -->
-      <!-- Given an input conditioning sequence $\mathbf{x}$ and a vocabulary $\mathbf{V}$ from which to sample, beam search  -->
-      <!-- </center> -->
-
-<!--       <center>
-        <table style="width:80%">
-          <tr>
-            <td><b>Beam width</b></td>
-            <td>256</td>
-          </tr>
-          <tr>
-            <td><b>Planning horizon</b></td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td><b>Vocabulary size</b></td>
-            <td>100</td>
-          </tr>
-          <tr>
-            <td><b>Context size [number of $(\mathbf{s}, \mathbf{a}, r, V)$ tuples]</b></td>
-            <td>5</td>
-          </tr>
-          <tr>
-            <td><b>$k_\text{obs}$ [top-k tokens from which observations are sampled]</b></td>
-            <td>1</td>
-          </tr>
-          <tr>
-            <td><b>$k_\text{act}$ [top-k tokens from which actions are sampled]</b></td>
-            <td>20</td>
-          </tr>
-        </table>
-      </center>
-
-      <br><br>
-
-      Beam width and context size are standard hyperparameters for decoding Transformer language models.
-      Planning horizon is a standard trajectory optimization hyperparameter.
-      $k_\text{obs}$ and $k_\text{act}$ indicate that actions are sampled from the most likely $20\%$ of action tokens and next observations are decoded greedily conditioned on previous observations and actions.  -->
 
       </div>
     </div> 
