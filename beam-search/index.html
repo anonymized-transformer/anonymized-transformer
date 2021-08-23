@@ -145,8 +145,8 @@ th, td {
 
       <p style="font-size:15px">
       $^1$Because the beam width is larger than the vocabulary size, at $t=1$ of Algorithm 1 we can fit all single tokens in the hypothesis set $Y_1$. At $t=2$, when there are $100^2$ options, we must begin pruning.
-      To account for this edge case, the size constraint in line 4
-      $|Y| = B$
+      To account for this edge case, the size constraint in line 4,
+      $|Y| = B$,
       could be more precisely rewritten as 
       $|Y| = \min(B, |Y_{t-1}| * | \mathcal{V} |)$, but we present the simpler version in the pseudocode description for conceptual clarity.
       <br>
