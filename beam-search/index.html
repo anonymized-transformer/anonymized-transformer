@@ -133,7 +133,7 @@ th, td {
       <br><br>
 
       <b>Planning with beam search.</b>&nbsp;
-      Algorithm 1 is presented in an abstracted form so as to apply to a generic sequence generation problem.
+      Algorithm 1 is presented in an abstracted form so as to apply to a generic sequence generation problem without regard to memory constraints.
       To use beam search for control, we use the last $c$ transitions (the "context size") of the current trajectory as the input $\mathbf{x}$, corresponding to the most recent $c \cdot (N + M + 2)$ tokens.$^2$
       Similarly, when evaluating the likelihood of a generated sequence $\mathbf{y}$, only the most recent $c$ transitions of the sequence are passed as input to the model $P_\theta$.
       We use a <b>context size of $\boldsymbol{c=5}$</b>.
