@@ -117,7 +117,7 @@ th, td {
         <br><br>
 
       <center>
-        <img src="images/beam_search_2.png" width="60%">
+        <img src="images/beam_search_3.png" width="60%">
         <br><br>
       </center>
 
@@ -144,7 +144,11 @@ th, td {
       <br><br>
 
       <p style="font-size:15px">
-      $^1$Because the beam width is larger than the vocabulary size, at $t=1$ of Algorithm 1 we can fit all single tokens in the hypothesis set $Y_1$. At $t=2$, when there are $100^2$ options, we must begin pruning. This is reflected by allowing the size of the hypothesis set to be less than the beam width in line 4: $| Y | \le B$.
+      $^1$Because the beam width is larger than the vocabulary size, at $t=1$ of Algorithm 1 we can fit all single tokens in the hypothesis set $Y_1$. At $t=2$, when there are $100^2$ options, we must begin pruning.
+      To account for this edge case, the size constraint in line 4
+      $|Y| = B$
+      could be more precisely rewritten as 
+      $|Y| = \min(B, |Y_{t-1}| * | \mathcal{V} |)$, but we present the simpler version in the pseudocode description for conceptual clarity.
       <br>
       $^2$$N+M+2$ accounts for $N$-dimensional states, $M$-dimensional actions, and scalar rewards and rewards-to-go.
       </p>
